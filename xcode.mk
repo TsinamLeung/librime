@@ -80,5 +80,8 @@ test-debug: debug
 thirdparty:
 	make -f thirdparty.mk
 
+thirdparty/boost:
+	./install-boost.sh
+
 thirdparty/%:
 	make -f thirdparty.mk $(@:thirdparty/%=%)
