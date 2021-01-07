@@ -8,10 +8,15 @@ matrix:
     install: "./travis-install.sh"
     script: make test
   - &osx_build
+    if: tag IS NOT present
     os: osx
     compiler: clang
     install: "./travis-install.sh"
     script: make xcode/test
+  - <<: *osx_build
+    if: tag IS present
+    osx_image: xcode12u
+    env: BOOST_ROOT="${TRAVIS_BUILD_DIR}/thirdparty/src/boost_1_75_0" RIME_PLUGINS="${RIME_BUNDLED_PLUGINS}" RIME_VARIANT="rime-with-plugins"
     before_deploy:
     - make xcode/dist
     - |
@@ -30,6 +35,3 @@ matrix:
       on:
         repo: rime/librime
         tags: true
-  - <<: *osx_build
-    if: tag IS present
-    env: RIME_PLUGINS="${RIME_BUNDLED_PLUGINS}" RIME_VARIANT="rime-with-plugins"
