@@ -54,6 +54,13 @@ target_link_libraries(rime_deployer
   ${rime_dict_library}
   ${rime_levers_library})
 
+set(rime_trie_dump_src "rime_trie_dump.cc")
+add_executable(rime_trie_dump ${rime_trie_dump_src})
+target_link_libraries(rime_trie_dump
+  ${rime_library}
+  ${rime_dict_library}
+  ${rime_levers_library})
+
 install(TARGETS rime_deployer DESTINATION ${BIN_INSTALL_DIR})
 install(TARGETS rime_dict_manager DESTINATION ${BIN_INSTALL_DIR})
 
