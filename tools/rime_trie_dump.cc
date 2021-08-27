@@ -61,7 +61,19 @@ void query_process(rime::Table& table)
         print_entry(accessor,table);
     }
 }
-
+int detectExtension(std::string inp)
+{
+    auto findExtension = [inp](std::string extension){
+        return inp.rfind(extension) != std::string::npos;
+    };
+    if(findExtension(".table.bin"))
+    {
+        return 1;
+    }else if(findExtension(".prism.bin")){
+        return 2;
+    }
+    return -1;
+}
 int main(int argc,char* argv[])
 {
     std::ios_base::sync_with_stdio(false);
@@ -70,13 +82,19 @@ int main(int argc,char* argv[])
         return 1;
     } else if(argc == 2){
         const char* trieName = argv[argc - 1];
-        rime::Table table(trieName);
-        if(!table.Load())
+        int r = detectExtension(trieName);
+        if(r == 0)
         {
-            std::cerr << "Load Failed! Please check your path" << std::endl;
-            return 3;
+            rime::Table table(trieName);
+            if(!table.Load())
+            {
+                std::cerr << "Load Failed! Please check your path" << std::endl;
+                return 3;
+            }
+            query_process(table);
+        }else {
+            std::cerr << "[Unsupported file]" <<std::endl;
         }
-        query_process(table);
     } else {
         std::cerr << 
         "[Invalid Arguments]Does not accepts mroe than 1 aruguments \n\n"
