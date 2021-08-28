@@ -58,6 +58,7 @@ void print_entry(rime::TableAccessor &accessor, rime::Table &table)
 
 void query_process(rime::Table &table)
 {
+    std::cout << "Please Input syllable ID type id less than 0 to exit" << std::endl;
     while (true)
     {
         int syllableId = -1;
@@ -68,7 +69,6 @@ void query_process(rime::Table &table)
             return;
         }
         std::cout << "Corresponding syllable: " << table.GetSyllableById(syllableId) << std::endl;
-        ;
         auto accessor = table.QueryWords(syllableId);
         print_entry(accessor, table);
     }
@@ -81,7 +81,7 @@ void query_process(rime::Prism &prism)
                  "[E] for Expand search\n"
                  "[X] for Exact search"
               << std::endl;
-    std::cout << "type " << SAFE_WORD << " to exit";
+    std::cout << "type " << SAFE_WORD << " to exit" << std::endl;
 
     std::string line;
     std::getline(std::cin, line);
