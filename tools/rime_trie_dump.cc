@@ -34,6 +34,7 @@ void print_utf8_char(char *ch)
 }
 void print_entry(rime::TableAccessor &accessor, rime::Table &table)
 {
+    int cnt = 0;
     while (!accessor.exhausted())
     {
         const rime::Code &code = accessor.code();
@@ -52,8 +53,9 @@ void print_entry(rime::TableAccessor &accessor, rime::Table &table)
         std::cout << "Credibility: " << credibility << std::endl;
         std::cout << "\n---" << std::endl;
         accessor.Next();
+        ++cnt;
     }
-    std::cout << "Accessor Exhausted" << std::endl;
+    std::cout << "Accessor Exhausted entry count: " << cnt << std::endl;
 }
 
 void query_process(rime::Table &table)
@@ -137,7 +139,7 @@ void query_process(rime::Prism &prism)
             {
                 auto syllableAccessor = prism.QuerySpelling(eachMatch.value);
                 std::cout << "Spelling ID: " << eachMatch.value
-                          << " Spelling ID: "
+                          << " Syllable ID: "
                           << syllableAccessor.syllable_id() << std::endl;
             }
             std::cout << "\nSearch Exhausted\n"
@@ -148,8 +150,8 @@ void query_process(rime::Prism &prism)
             int spellingID;
             if (prism.GetValue(line, &spellingID))
             {
-                std::cout << "Spelling ID : " << spellingID 
-                << "\nSyllable ID: " << prism.QuerySpelling(prismID).syllable_id() << std::endl;
+                std::cout << "Spelling ID: " << spellingID 
+                << "\nSyllable ID: " << prism.QuerySpelling(spellingID).syllable_id() << std::endl;
             }
             else
             {
