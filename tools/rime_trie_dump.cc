@@ -138,9 +138,13 @@ void query_process(rime::Prism &prism)
             for (rime::Prism::Match &eachMatch : match)
             {
                 auto syllableAccessor = prism.QuerySpelling(eachMatch.value);
-                std::cout << "Spelling ID: " << eachMatch.value
-                          << " Syllable ID: "
-                          << syllableAccessor.syllable_id() << std::endl;
+                while(!syllableAccessor.exhausted())
+                {
+                    std::cout << "Spelling ID: " << eachMatch.value
+                            << " Syllable ID: "
+                            << syllableAccessor.syllable_id() << std::endl;
+                    syllableAccessor.Next();
+                }
             }
             std::cout << "\nSearch Exhausted\n"
                       << std::endl;
