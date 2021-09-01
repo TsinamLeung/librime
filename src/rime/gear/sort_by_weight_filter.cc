@@ -47,6 +47,7 @@ bool SortByWeightTranslation::Rearrange() {
     auto phrase = As<Phrase>(Candidate::GetGenuineCandidate(cand));
     if(!phrase.get())
     {
+      translation_->Next();
       continue;
     }
     phraseSet.insert(phrase);
