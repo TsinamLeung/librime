@@ -42,17 +42,22 @@ bool SortByWeightTranslation::Rearrange() {
     return false;
   }
   WeightSorter phraseSet(WeightGrater);
+  CandidateQueue unsortedCand;
   while (!translation_->exhausted()) {
     auto cand = translation_->Peek();
     auto phrase = As<Phrase>(Candidate::GetGenuineCandidate(cand));
-    if(!phrase.get())
+    bool shouldSkip = (!phrase.get()) || 
+                      (phrase.get()->type().find("table") != std::string::npos);
+    if(shouldSkip)
     {
+      unsortedCand.push_back(cand);
       translation_->Next();
       continue;
     }
     phraseSet.insert(phrase);
     translation_->Next();
   }
+  cache_.splice(cache_.end(),unsortedCand);
   for (auto eachPhrase : phraseSet)
   {
     cache_.push_back(As<Candidate>(eachPhrase));
