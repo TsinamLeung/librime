@@ -29,6 +29,7 @@
 #include <rime/gear/shape.h>
 #include <rime/gear/simplifier.h>
 #include <rime/gear/single_char_filter.h>
+#include <rime/gear/sort_by_weight_filter.h>
 #include <rime/gear/speller.h>
 #include <rime/gear/switch_translator.h>
 #include <rime/gear/table_translator.h>
@@ -85,7 +86,7 @@ static void rime_gears_initialize() {
   r.Register("cjk_minifier", new Component<CharsetFilter>);  // alias
   r.Register("reverse_lookup_filter", new Component<ReverseLookupFilter>);
   r.Register("single_char_filter", new Component<SingleCharFilter>);
-
+  r.Register("sort_by_weight_filter", new Component<SortByWeightFilter>);
   // formatters
   r.Register("shape_formatter", new Component<ShapeFormatter>);
 }
