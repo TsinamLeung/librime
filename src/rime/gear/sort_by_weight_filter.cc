@@ -16,7 +16,7 @@ namespace rime {
 bool WeightGrater (const rime::of<Phrase>& a,const rime::of<Phrase>& b) {
   const auto& pa = a.get();
   const auto& pb = b.get();
-  return pa->quality() == pb->quality() 
+  return pa->quality() != pb->quality() 
   ? (pa->quality() > pb->quality()) 
   : (pa->weight() > pb->weight());
 }
@@ -24,7 +24,7 @@ bool WeightGrater (const rime::of<Phrase>& a,const rime::of<Phrase>& b) {
 bool WeightLess (const rime::of<Phrase>& a,const rime::of<Phrase>& b) {
   const auto& pa = a.get();
   const auto& pb = b.get();
-  return pa->quality() == pb->quality() 
+  return pa->quality() != pb->quality() 
   ? (pa->quality() < pb->quality()) 
   : (pa->weight() < pb->weight());
 }
@@ -64,7 +64,12 @@ bool SortByWeightTranslation::Rearrange() {
 
     if(shouldSkip)
     { 
-      unsortedTop.push_back(cand);
+      if (sortedPhrase.size() == 0)
+      {
+        unsortedTop.push_back(cand);
+      } else {
+        unsortedBottom.push_back(cand);
+      }
       translation_->Next();
       continue;
     }
@@ -99,7 +104,7 @@ SortByWeightFilter::SortByWeightFilter(const Ticket& ticket)
       { name_space_ = "sort_by_weight_filter"; }
       if(Config* config = engine_->schema()->config()) {
         if(!config->GetInt(name_space_ + "/sort_range", &sort_range_)) 
-        { sort_range_ = 512; }
+        { sort_range_ = 64; }
       }
 
 }
